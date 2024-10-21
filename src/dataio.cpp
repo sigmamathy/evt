@@ -1,6 +1,5 @@
 #include "dataio.hpp"
 #include <iostream>
-#include <vector>
 #include <array>
 #include <filesystem>
 #include <fstream>
@@ -13,7 +12,7 @@ static std::string GetUserDataDir()
     return pw->pw_dir + std::string("/.config/evt");
 }
 
-static bool CreateFilesIfNotExists()
+bool CreateFilesIfNotExists()
 {
     namespace fs = std::filesystem;
     std::string dir = GetUserDataDir();
@@ -77,7 +76,7 @@ void WriteTodoRecords(std::vector<TodoRecord> const& records)
 int AddMain(int opt)
 {
     if (!opt) {
-        printf("Enter type [1: event, 2: todo] >> ");
+        printf("\033[31mEnter type [1: event, 2: todo]\033[0m >> ");
         std::cin >> opt;
         if (opt != 1 && opt != 2) {
             std::cerr << "ERROR: Not a valid option.\n";
@@ -91,16 +90,16 @@ int AddMain(int opt)
         auto records = ReadTodoRecords();
 
         TodoRecord& rec = records.emplace_back();
-        printf("Enter course code >> ");
+        printf("\033[31mEnter course code\033[0m >> ");
         std::cin >> rec.course;
         if (rec.course.length() != 8) {
             std::cerr << "ERROR: Length of course code must be 8.\n";
             return 1;
         }
         std::cin.ignore();
-        std::cout << "Enter todo name   >> ";
+        std::cout << "\033[31mEnter todo name\033[0m   >> ";
         getline(std::cin, rec.name);
-        std::cout << "Enter due date    >> ";
+        std::cout << "\033[31mEnter due date\033[0m    >> ";
         std::string date;
         std::cin >> date;
         int year, month, day;
@@ -133,7 +132,7 @@ int RemoveMain(int id)
 int DoneMain(int id)
 {
     if (!id) {
-        std::cout << "Enter ID >> ";
+        std::cout << "\033[31mEnter ID\033[0m >> ";
         std::cin >> id;
     }
 

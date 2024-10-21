@@ -4,6 +4,7 @@
 
 #include "calendar.hpp"
 #include "dataio.hpp"
+#include "list.hpp"
 
 int main(int argc, char** argv)
 {
@@ -15,6 +16,10 @@ int main(int argc, char** argv)
     std::vector<std::string> args(argc - 1);
     for (int i = 1; i < argc; ++i)
         args[i - 1] = argv[i];
+
+    if (args[0] == "ls") {
+        return ListMain();
+    }
 
     if (args[0] == "add") {
         int opt = 0;
