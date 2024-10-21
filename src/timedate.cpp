@@ -21,8 +21,9 @@ int GetDayOfTheWeek(Date date)
     int k = y % 100, j = y / 100;
     int h = (DAY(date) + 13*(m+1)/5 + k + k/4 + j/4 + 5*j) % 7; // WTF? is this magic or something?
 
-    return (h - 2) % 7 + 1;
-
+    h -= 2;
+    if (h < 0) h += 7;
+    return h + 1;
 }
 
 bool IsLeapYear(int year)
@@ -48,4 +49,24 @@ int GetDaysSince1970(Date date)
         days += GetDaysInMonth(m, IsLeapYear(year));
 
     return days;
+}
+
+std::string GetMonthString(int month)
+{
+    static char const* str[] = {
+        "January", "February", "March", "April",
+        "May", "June", "July", "August",
+        "September", "October", "November", "December"
+    };
+
+    return str[month - 1];
+}
+
+std::string GetDayString(int day)
+{
+    static char const* str[] = {
+        "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"
+    };
+
+    return str[day - 1];
 }

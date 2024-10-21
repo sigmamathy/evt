@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 using Date = unsigned;
 
 // Serialize date via byte shifting
@@ -19,3 +21,7 @@ bool IsLeapYear(int year);
 int GetDaysInMonth(int month, bool leap_year);
 
 int GetDaysSince1970(Date date);
+
+std::string GetMonthString(int month);
+
+std::string GetDayString(int day);
