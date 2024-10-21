@@ -25,3 +25,5 @@ int GetDaysSince1970(Date date);
 std::string GetMonthString(int month);
 
 std::string GetDayString(int day);
+
+bool IsDateValid(Date date);

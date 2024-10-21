@@ -70,3 +70,9 @@ std::string GetDayString(int day)
 
     return str[day - 1];
 }
+
+bool IsDateValid(Date date)
+{
+    int y = YEAR(date), m = MONTH(date), d = DAY(date);
+    return y > 0 && m >= 1 && m <= 12 && d >= 1 && d <= GetDaysInMonth(m, IsLeapYear(y));
+}

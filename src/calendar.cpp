@@ -49,7 +49,7 @@ struct NonCanonicalModeTerminal // RAII purpose.
 
 static int cursor_x, cursor_y;
 
-void MoveCursorToPos(int x, int y)
+static void MoveCursorToPos(int x, int y)
 {
     if (cursor_x < x) printf("\033[%dC", x - cursor_x); // right
     else if (cursor_x > x) printf("\033[%dD", cursor_x - x); // left
@@ -64,7 +64,7 @@ static int year, month, day;
 static int first_day_of_month;
 static int days_of_month;
 
-void WriteCalendar()
+static void WriteCalendar()
 {
     MoveCursorToPos(0, 8);
     printf(DELETE_LINE "\n" DELETE_LINE);
@@ -112,14 +112,14 @@ void WriteCalendar()
     cursor_y = (days_of_month + first_day_of_month - 2) / 7 + 5;
 }
 
-void MoveCursorToSelectedDay()
+static void MoveCursorToSelectedDay()
 {
     int d = day + first_day_of_month - 2;
     int r = d / 7, c = d % 7;
     MoveCursorToPos(2 + 3 * c, 3 + r);
 }
 
-void NextMonth(int next) // either -1 or 1
+static void NextMonth(int next, int d) // either -1 or 1
 {
     month += next;
     if (!month) {
@@ -132,7 +132,7 @@ void NextMonth(int next) // either -1 or 1
 
     first_day_of_month = GetDayOfTheWeek(TO_DATE(year, month, 1));
     days_of_month = GetDaysInMonth(month, IsLeapYear(year));
-    day = next == -1 ? days_of_month : 1;
+    day = d ? (d > days_of_month ? days_of_month : d) : (next == -1 ? days_of_month : 1);
 
     WriteCalendar();
     MoveCursorToSelectedDay();
@@ -164,7 +164,7 @@ void CalendarMain() // [5] Hello World  (13:30 - 14:15)
             case 'C': // right
             {
                 if (day == days_of_month) {
-                    NextMonth(1);
+                    NextMonth(1, 0);
                     break;
                 }
                 printf("%2d", day);
@@ -179,7 +179,7 @@ void CalendarMain() // [5] Hello World  (13:30 - 14:15)
             case 'D': // left
             {
                 if (day == 1) {
-                    NextMonth(-1);
+                    NextMonth(-1, 0);
                     break;
                 }
                 printf("%2d", day);
@@ -214,8 +214,23 @@ void CalendarMain() // [5] Hello World  (13:30 - 14:15)
                 ++cursor_y;
                 break;
             }
+
+            case '<':
+            {
+                NextMonth(-1, day);
+                break;
+            }
+
+            case '>':
+            {
+                NextMonth(1, day);
+                break;
+            }
         }
 
         fflush(stdout);
     }
+
+    MoveCursorToPos(0, (days_of_month + first_day_of_month - 2) / 7 + 5);
+    fflush(stdout);
 }

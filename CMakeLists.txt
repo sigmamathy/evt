@@ -7,6 +7,8 @@ add_executable(evt src/main.cpp
         src/timedate.hpp
         src/timedate.cpp
         src/calendar.cpp
-        src/calendar.hpp)
+        src/calendar.hpp
+        src/dataio.hpp
+        src/dataio.cpp)
 
 install(TARGETS evt DESTINATION /usr/local/bin)
