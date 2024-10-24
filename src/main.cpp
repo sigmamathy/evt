@@ -14,33 +14,37 @@ int main(int argc, char** argv)
     }
 
     std::vector<std::string> args(argc - 1);
-    for (int i = 1; i < argc; ++i)
-        args[i - 1] = argv[i];
+    for (int i = 1; i < argc; ++i) args[i - 1] = argv[i];
 
-    if (args[0] == "ls") {
-        return ListMain();
+    if (args[0] == "e") {
+        return ListEvents_Main();
     }
 
-    if (args[0] == "add") {
-        int opt = 0;
-        if (args.size() > 1) {
-            if (args[1] == "event") opt = 1;
-            else if (args[1] == "todo") opt = 2;
-            else {
-                std::cerr << "ERROR: Not a valid option.\n";
-                return 1;
-            }
-        }
-        return AddMain(opt);
+    if (args[0] == "t") {
+        return ListTodos_Main();
     }
 
-    if (args[0] == "done") {
+    if (args[0] == "+e") {
+        return AddEvent_Main();
+    }
+
+    if (args[0] == "-e") {
         int opt = 0;
         if (args.size() > 1)
             opt = std::stoi(args[1]);
-        return DoneMain(opt);
+        return RmEvent_Main(opt);
     }
 
+    if (args[0] == "+t") {
+        return AddTodo_Main();
+    }
+
+    if (args[0] == "-t") {
+        int opt = 0;
+        if (args.size() > 1)
+            opt = std::stoi(args[1]);
+        return RmTodo_Main(opt);
+    }
 
     return 0;
 }

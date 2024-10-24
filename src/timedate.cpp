@@ -9,6 +9,14 @@ Date GetTodayDate()
     return TO_DATE(tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
 }
 
+Time GetTimeNow()
+{
+    time_t t = time(nullptr);
+    tm tm = *localtime(&t);
+
+    return TO_TIME(tm.tm_hour, tm.tm_min, tm.tm_sec);
+}
+
 int GetDayOfTheWeek(Date date)
 {
     int m = MONTH(date), y = YEAR(date);
@@ -49,6 +57,27 @@ int GetDaysSince1970(Date date)
         days += GetDaysInMonth(m, IsLeapYear(year));
 
     return days;
+}
+
+Date GetDateFromDaysSince1970(int days)
+{
+    int year = 1970, month = 1;
+
+    while (true) {
+        int yd = IsLeapYear(year) ? 366 : 365;
+        if (yd > days) break;
+        days -= yd;
+        ++year;
+    }
+
+    while (true) {
+        int md = GetDaysInMonth(month, IsLeapYear(year));
+        if (md > days) break;
+        days -= md;
+        ++month;
+    }
+
+    return TO_DATE(year, month, days);
 }
 
 std::string GetMonthString(int month)

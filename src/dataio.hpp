@@ -4,6 +4,14 @@
 #include <vector>
 #include "timedate.hpp"
 
+struct EventRecord
+{
+    std::string course;
+    std::string name, location;
+    Date start_date;
+    Time start_time, duration;
+};
+
 struct TodoRecord
 {
     std::string course;
@@ -13,13 +21,18 @@ struct TodoRecord
 
 bool CreateFilesIfNotExists();
 
+std::vector<EventRecord> ReadEventRecords();
+
 std::vector<TodoRecord> ReadTodoRecords();
 
-// Main function for add
-int AddMain(int opt); // 0 = N/A, 1 = event, 2 = todo
+// Main function for add event
+int AddEvent_Main();
 
-// Main function for rm
-int RemoveMain(int id); // 0 = N/A
+// Main function for remove event
+int RmEvent_Main(int id); // 0 = N/A
+
+// Main function for add todo
+int AddTodo_Main();
 
 // Main function for done
-int DoneMain(int id); // 0 = N/A
+int RmTodo_Main(int id); // 0 = N/A

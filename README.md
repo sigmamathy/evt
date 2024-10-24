@@ -18,10 +18,12 @@ then the executable will be placed in `/usr/local/bin`.
 
 ```
 evt             # view calendar
-evt add         # add event or todo
-evt rm          # remove event
-evt done        # mark todo as done
 evt ls          # list events and todos
+evt +e          # add event
+evt +t          # add todo
+evt -e          # remove event
+evt -t          # mark todo as done
+
 ```
 
 In calendar mode, press `arrow keys` to move around.

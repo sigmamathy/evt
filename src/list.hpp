@@ -1,3 +1,5 @@
 #pragma once
 
-int ListMain();
+int ListEvents_Main();
+
+int ListTodos_Main();
